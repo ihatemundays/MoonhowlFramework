@@ -4,7 +4,7 @@
         private readonly MatchFunc _localMatchFunc;
 
         public Matcher() {
-            _localMatchFunc = entity => false;
+            _localMatchFunc = entity => true;
         }
         
         public Matcher(MatchFunc matchFunc) {
