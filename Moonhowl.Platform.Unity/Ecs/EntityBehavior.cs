@@ -7,14 +7,17 @@ namespace Moonhowl.Platform.Unity.Ecs {
     public class EntityBehavior<T>: MonoBehaviour where T: EntitySystemBehavior {
         [HideInInspector]
         public Entity entity = new Entity();
-        private readonly SystemMatcher<EntitySystem<T>> _systemMatcher = new SystemMatcher<EntitySystem<T>>();
+
+        public EntitySystem<T>[] entitySystems;  
+        private SystemMatcher<EntitySystem<T>> _systemMatcher;
 
         protected void Start() {
-            gameObject.SetEntity(entity);    
+            gameObject.SetEntity(entity); 
+            _systemMatcher = new SystemMatcher<EntitySystem<T>>(entitySystems);
         }
         
         protected async void Update() {
-            await _systemMatcher.MatchSystems(entity);
+            await _systemMatcher.Match(entity);
         }
     }
 }
