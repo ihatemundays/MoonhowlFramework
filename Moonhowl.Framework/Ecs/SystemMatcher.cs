@@ -1,20 +1,29 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Moonhowl.Framework.Ecs {
   public class SystemMatcher<T> where T: IEntitySystem {
-    public readonly T[] EntitySystems = {};
+    private readonly Dictionary<T, Matcher> _systemMatchers = new Dictionary<T, Matcher>();
 
-    public async Task MatchSystems(Entity entity) {
-      var tasks = EntitySystems.Select(entitySystem => {
+    public SystemMatcher(IEnumerable<T> systems) {
+      _systemMatchers = systems.Select(system => system).ToDictionary(x => x, x => x.GetMatcher());
+    }
+
+    public async Task Match(Entity entity) {
+      var tasks = _systemMatchers.Select(systemMatcher => {
+        var system = systemMatcher.Key;
+        var matcher = systemMatcher.Value;
+        
         var task = new Task(() => {
-          if (entitySystem.GetMatcher().Match(entity)) {
-            entitySystem.OnMatch(entity);
+          if (matcher.Match(entity)) {
+            system.OnMatch(entity);
           } else {
-            entitySystem.OnNotMatch(entity);
+            system.OnNotMatch(entity);
           }
         });
         task.Start();
+        
         return task;
       });
 
