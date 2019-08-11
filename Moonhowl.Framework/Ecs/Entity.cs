@@ -38,7 +38,7 @@ namespace Moonhowl.Framework.Ecs {
         }
         
         public void ClearComponentStates() {
-            _componentStates = new Dictionary<Type, EntityComponentState>();            
+            _componentStates.Clear();            
         }
         
         public Entity AddComponents(List<IEntityComponent> components) {
