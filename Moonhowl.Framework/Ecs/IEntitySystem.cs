@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace Moonhowl.Framework.Ecs {
   public interface IEntitySystem {
     Matcher GetMatcher();

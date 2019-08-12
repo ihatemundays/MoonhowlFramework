@@ -43,7 +43,6 @@
         <Compile Include="Ecs\EntityBehavior.cs" />
         <Compile Include="Ecs\EntityComponent.cs" />
         <Compile Include="Ecs\EntitySystem.cs" />
-        <Compile Include="Ecs\EntitySystemBehavior.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Utility\GameObjectExtensions.cs" />
     </ItemGroup>

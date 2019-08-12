@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Moonhowl.Platform.Unity.Ecs {
     [DisallowMultipleComponent]
-    public class EntityBehavior<T>: MonoBehaviour where T: EntitySystemBehavior {
+    public class EntityBehavior: MonoBehaviour {
         [HideInInspector]
         public Entity entity = new Entity();
 
-        public EntitySystem<T>[] entitySystems;  
-        private SystemMatcher<EntitySystem<T>> _systemMatcher;
+        public EntitySystem[] entitySystems;  
+        private SystemMatcher<EntitySystem> _systemMatcher;
 
         protected void Start() {
             gameObject.SetEntity(entity); 
-            _systemMatcher = new SystemMatcher<EntitySystem<T>>(entitySystems);
+            _systemMatcher = new SystemMatcher<EntitySystem>(entitySystems);
         }
         
         protected async void Update() {

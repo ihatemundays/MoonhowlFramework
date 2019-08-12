@@ -17,8 +17,10 @@ namespace Moonhowl.Framework.Ecs {
         
         var task = new Task(() => {
           if (matcher.Match(entity)) {
+            entity.AddSystem(system);
             system.OnMatch(entity);
           } else {
+            entity.RemoveSystem(system);
             system.OnNotMatch(entity);
           }
         });

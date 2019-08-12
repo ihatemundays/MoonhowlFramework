@@ -1,32 +1,42 @@
 ﻿using Moonhowl.Framework.Ecs;
 using Moonhowl.Platform.Unity.Utility;
 using System;
+using UnityEngine;
 
 namespace Moonhowl.Platform.Unity.Ecs {
-    public abstract class EntitySystem<T>: IEntitySystem where T: EntitySystemBehavior {
+    public abstract class EntitySystem: MonoBehaviour, IEntitySystem {
+        protected Entity Entity;
+        
         public Matcher GetMatcher() {
             throw new NotImplementedException();
         }
 
         public void OnMatch(Entity entity) {
             var gameObject = entity.GetGameObject();
+            var type = GetType();
+            var component = gameObject.GetComponent(type);
             
-            if (gameObject.GetComponent<T>() != null) {
+            if (component != null) {
                 return;
             }
 
-            gameObject.AddComponent<T>();
+            gameObject.AddComponent(type);
         }
 
         public void OnNotMatch(Entity entity) {
             var gameObject = entity.GetGameObject();
-            var component = gameObject.GetComponent<T>();
+            var type = GetType();
+            var component = gameObject.GetComponent(type);
             
             if (component == null) {
                 return;
             }
 
-            gameObject.GetComponent<T>().Destroy();
+            Destroy(component);
+        }
+        
+        private void Start() {
+            Entity = gameObject.GetEntity();
         }
     }
 }
